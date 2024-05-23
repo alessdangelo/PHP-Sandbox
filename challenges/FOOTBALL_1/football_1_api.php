@@ -25,4 +25,4 @@ echo $football->answer;
 
 
 // REPONSE ----------------------------
-// $game->output(['data' => ...]);
+ $game->output(['data' => $football->answer]);
