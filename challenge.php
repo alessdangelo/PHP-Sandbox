@@ -2,7 +2,6 @@
 if (!file_exists('./vendor/autoload.php')) {
 	die('Commence par lancer la commande "composer install"');
 }
-
 require './vendor/autoload.php';
 
 use Tainix\App;
