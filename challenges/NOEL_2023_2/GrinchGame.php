@@ -7,8 +7,10 @@ use Challenges\NOEL_2023_2\Grinch;
 
 class GrinchGame
 {
+    private const TIME_TO_SCARE = 3;
+    private const TIME_LOST = 5;
     public string $answer = '';
-    public object $grinch;
+    public Grinch $grinch;
     public array $kidsObjects = [];
 
     public function __construct(public int $time, public array $kids, public int $grinchFear)
@@ -27,22 +29,32 @@ class GrinchGame
         foreach ($kidsCodeArray as $kidCode) {
             $kids[] = Kid::generateKid($kidCode);
         }
+
         return $kids;
     }
 
     public function start(): void
     {
         foreach ($this->kidsObjects as $kid) {
-            if ($this->time > 0 && $this->time - 3 >= 0 || $this->time - 5 >= 0) {
-                if ($this->grinch->fear > $kid->fear) {
-                    $this->answer .= ucfirst($kid->letter);
-                    $this->time -= 3;
-                } elseif ($kid->fear >= $this->grinch->fear) {
-                    $this->time -= 5;
+            if ($this->time <= 0) {
+                if (empty($this->answer)) {
+                    $this->answer = 'GRINCH';
                 }
-            } elseif (empty($this->answer)) {
-                $this->answer = 'GRINCH';
+
+                return;
             }
+
+            if ($this->time - self::TIME_TO_SCARE < 0) {
+                return;
+            }
+
+            if ($this->grinch->fear > $kid->fear) {
+                $this->answer .= $kid->letter;
+                $this->time -= self::TIME_TO_SCARE;
+                continue;
+            }
+
+            $this->time -= self::TIME_LOST;
         }
     }
 }

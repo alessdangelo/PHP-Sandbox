@@ -8,7 +8,7 @@ class Kid
 
     public function __construct(public string $name, public int $fear)
     {
-        $this->letter = $name[0];
+        $this->letter = ucfirst($name[0]);
     }
 
     // Fonction statique qui genere un objet Kid à partir d'une string
@@ -16,7 +16,7 @@ class Kid
     {
         [$name, $fear] = explode('_', $code);
 
-        return new Kid($name, $fear);
+        return new Kid($name, (int)$fear);
     }
 }
 
