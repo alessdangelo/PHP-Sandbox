@@ -1,18 +1,18 @@
 <?php
 
 namespace Challenges\NOEL_2023_2;
+
 use Challenges\NOEL_2023_2\Kid;
 use Challenges\NOEL_2023_2\Grinch;
+
 class GrinchGame
 {
     public string $answer = '';
-    public int $time;
-    public array $kids;
-    public $grinch;
+    public object $grinch;
+    public array $kidsObjects = [];
 
-    public function __construct(int $time, array $kids, $grinchFear)
+    public function __construct(public int $time, public array $kids, public int $grinchFear)
     {
-        $this->time = $time;
         if (!empty($kids)) {
             $this->formatKids($kids);
         } else {
@@ -21,31 +21,24 @@ class GrinchGame
         $this->grinch = new Grinch($grinchFear);
     }
 
-    function formatKids($kidsArray)
+    function formatKids($kidsCodeArray): void
     {
-        foreach ($kidsArray as $kid) {
-            $kid = explode('_', $kid);
-            $this->kids[] = new Kid($kid[0], $kid[1]);
+        foreach ($kidsCodeArray as $kidCode) {
+            $this->kidsObjects[] = Kid::generateKid($kidCode);
         }
     }
 
-    public function start()
+    public function start(): void
     {
-        $this->process();
-    }
-
-    function process()
-    {
-        foreach ($this->kids as $kid) {
-            if ($this->time > 0 and ($this->time - 3 >= 0) or ($this->time - 5 >= 0)) {
+        foreach ($this->kidsObjects as $kid) {
+            if ($this->time > 0 && $this->time - 3 >= 0 || $this->time - 5 >= 0) {
                 if ($this->grinch->fear > $kid->fear) {
                     $this->answer .= ucfirst($kid->letter);
                     $this->time -= 3;
-                } else if ($kid->fear >= $this->grinch->fear) {
+                } elseif ($kid->fear >= $this->grinch->fear) {
                     $this->time -= 5;
                 }
-            }
-            elseif (empty($this->answer)) {
+            } elseif (empty($this->answer)) {
                 $this->answer = 'GRINCH';
             }
         }

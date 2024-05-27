@@ -4,15 +4,19 @@ namespace Challenges\NOEL_2023_2;
 
 class Kid
 {
-    public string $name;
-    public int $fear;
     public string $letter;
 
-    public function __construct(string $name, int $fear)
+    public function __construct(public string $name, public int $fear)
     {
-        $this->name = $name;
-        $this->fear = $fear;
         $this->letter = $name[0];
+    }
+
+    // Fonction statique qui genere un objet Kid à partir d'une string
+    public static function generateKid(string $code): Kid
+    {
+        [$name, $fear] = explode('_', $code);
+
+        return new Kid($name, $fear);
     }
 }
 
