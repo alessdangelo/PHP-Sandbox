@@ -14,18 +14,20 @@ class GrinchGame
     public function __construct(public int $time, public array $kids, public int $grinchFear)
     {
         if (!empty($kids)) {
-            $this->formatKids($kids);
+            $this->kidsObjects = $this->formatKids($kids);
         } else {
-            $this->kids = [new Kid('John', 1)];
+            $this->answer = 'GRINCH';
         }
         $this->grinch = new Grinch($grinchFear);
     }
 
-    function formatKids($kidsCodeArray): void
+    function formatKids($kidsCodeArray): array
     {
+        $kids = [];
         foreach ($kidsCodeArray as $kidCode) {
-            $this->kidsObjects[] = Kid::generateKid($kidCode);
+            $kids[] = Kid::generateKid($kidCode);
         }
+        return $kids;
     }
 
     public function start(): void
