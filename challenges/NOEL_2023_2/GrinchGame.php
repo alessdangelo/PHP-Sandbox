@@ -11,19 +11,15 @@ class GrinchGame
     private const TIME_LOST = 5;
     public string $answer = '';
     public Grinch $grinch;
-    public array $kidsObjects = [];
+    public array $kidsCollection = [];
 
     public function __construct(public int $time, public array $kids, public int $grinchFear)
     {
-        if (!empty($kids)) {
-            $this->kidsObjects = $this->formatKids($kids);
-        } else {
-            $this->answer = 'GRINCH';
-        }
+        $this->kidsCollection = $this->formatKids($kids);
         $this->grinch = new Grinch($grinchFear);
     }
 
-    function formatKids($kidsCodeArray): array
+    private function formatKids($kidsCodeArray): array
     {
         $kids = [];
         foreach ($kidsCodeArray as $kidCode) {
@@ -35,12 +31,8 @@ class GrinchGame
 
     public function start(): void
     {
-        foreach ($this->kidsObjects as $kid) {
+        foreach ($this->kidsCollection as $kid) {
             if ($this->time <= 0) {
-                if (empty($this->answer)) {
-                    $this->answer = 'GRINCH';
-                }
-
                 return;
             }
 
@@ -55,6 +47,10 @@ class GrinchGame
             }
 
             $this->time -= self::TIME_LOST;
+        }
+
+        if (empty($this->answer)) {
+            $this->answer = 'GRINCH';
         }
     }
 }

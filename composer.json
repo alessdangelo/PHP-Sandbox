@@ -5,7 +5,8 @@
         "php": "^8.2",
         "pestphp/pest": "1.*",
         "guzzlehttp/guzzle": "^7.0",
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "illuminate/collections": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.4",
