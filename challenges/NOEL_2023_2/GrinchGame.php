@@ -10,11 +10,15 @@ class GrinchGame
 {
     private const TIME_TO_SCARE = 3;
     private const TIME_LOST = 5;
-    public string $answer = '';
+    private Collection $kidsCollection;
     public Grinch $grinch;
-    public Collection $kidsCollection;
+    public string $answer = '';
 
-    public function __construct(public int $time, public array $kids, public int $grinchFear)
+    public function __construct(
+        public int   $time,
+        public array $kids,
+        public int   $grinchFear
+    )
     {
         $this->kidsCollection = collect($this->formatKids($kids));
         $this->grinch = new Grinch($grinchFear);
@@ -26,6 +30,7 @@ class GrinchGame
         $kids->transform(function ($item) {
             return Kid::generateKid($item);
         });
+
         return $kids->all();
     }
 
@@ -42,10 +47,10 @@ class GrinchGame
             if ($this->grinch->fear > $item->fear) {
                 $this->answer .= $item->letter;
                 $this->time -= self::TIME_TO_SCARE;
+
                 return;
             }
             $this->time -= self::TIME_LOST;
-
         });
 
         if (empty($this->answer)) {
